@@ -1,0 +1,95 @@
+{
+    "vt-gpu-staking//jupyterhub/jupyterhub-unmounted-pvcs/__unmounted__": {
+        "name": "vt-gpu-staking//jupyterhub/jupyterhub-unmounted-pvcs/__unmounted__",
+        "properties": {
+            "cluster": "vt-gpu-staking",
+            "container": "__unmounted__",
+            "namespace": "jupyterhub",
+            "pod": "jupyterhub-unmounted-pvcs"
+        },
+        "window": {
+            "start": "2024-08-18T05:00:00Z",
+            "end": "2024-08-19T05:00:00Z"
+        },
+        "start": "2024-08-18T05:00:00Z",
+        "end": "2024-08-19T05:00:00Z",
+        "minutes": 1440,
+        "cpuCores": 0,
+        "cpuCoreRequestAverage": 0,
+        "cpuCoreUsageAverage": 0,
+        "cpuCoreHours": 0,
+        "cpuCost": 0,
+        "cpuCostAdjustment": 0,
+        "cpuEfficiency": 0,
+        "gpuCount": 0,
+        "gpuRequestAverage": 0,
+        "gpuUsageAverage": 0,
+        "gpuHours": 0,
+        "gpuCost": 0,
+        "gpuCostAdjustment": 0,
+        "gpuEfficiency": 0,
+        "networkTransferBytes": 0,
+        "networkReceiveBytes": 0,
+        "networkCost": 0,
+        "networkCrossZoneCost": 0,
+        "networkCrossRegionCost": 0,
+        "networkInternetCost": 0,
+        "networkCostAdjustment": 0,
+        "loadBalancerCost": 0,
+        "loadBalancerCostAdjustment": 0,
+        "pvBytes": 329392674133.3333,
+        "pvByteHours": 7905424179200,
+        "pvCost": 1840.625,
+        "pvs": {
+            "cluster=vt-gpu-staking:name=pvc-55508d29-78ce-4217-91dd-59e366e70f3a": {
+                "byteHours": 1275068416000,
+                "cost": 296.875,
+                "providerID": "",
+                "adjustment": 0
+            },
+            "cluster=vt-gpu-staking:name=pvc-7b4f97f2-fbfb-4076-a3ac-d81b6c5c1de3": {
+                "byteHours": 255013683200,
+                "cost": 59.375,
+                "providerID": "",
+                "adjustment": 0
+            },
+            "cluster=vt-gpu-staking:name=pvc-a1623300-4939-42fa-85ad-d121b5c1ba29": {
+                "byteHours": 1275068416000,
+                "cost": 296.875,
+                "providerID": "",
+                "adjustment": 0
+            },
+            "cluster=vt-gpu-staking:name=pvc-a4546a0c-0380-47d1-8916-d4a90ab584fa": {
+                "byteHours": 1275068416000,
+                "cost": 296.875,
+                "providerID": "",
+                "adjustment": 0
+            },
+            "cluster=vt-gpu-staking:name=pvc-b5f34f1f-d7fe-4057-a3be-75899511aeaa": {
+                "byteHours": 2550136832000,
+                "cost": 593.75,
+                "providerID": "",
+                "adjustment": 0
+            },
+            "cluster=vt-gpu-staking:name=pvc-c8f26fca-b69e-4d85-ac9f-a6282d201a93": {
+                "byteHours": 1275068416000,
+                "cost": 296.875,
+                "providerID": "",
+                "adjustment": 0
+            }
+        },
+        "pvCostAdjustment": 0,
+        "ramBytes": 0,
+        "ramByteRequestAverage": 0,
+        "ramByteUsageAverage": 0,
+        "ramByteHours": 0,
+        "ramCost": 0,
+        "ramCostAdjustment": 0,
+        "ramEfficiency": 0,
+        "externalCost": 0,
+        "sharedCost": 0,
+        "totalCost": 1840.625,
+        "totalEfficiency": 0,
+        "lbAllocations": null
+    }
+}

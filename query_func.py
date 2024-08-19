@@ -1,22 +1,19 @@
 import requests
 from utils import  get_start_end
 import query
+from prometheus_api_client import PrometheusConnect
 
-url = 'https://prom-gpu.orai.network/api/v1/query'
+prom = PrometheusConnect(url='https://prom-gpu.orai.network/', disable_ssl=True)
 
 
-def func_query_RAM_bytes_alllocated(window,resolution,aggregate,query=query.queryFmtRAMBytesAllocated,step=None):
+def func_query_RAM_bytes_alllocated(window,resolution,aggregate,query=query.queryFmtRAMBytesAllocated_chart,step=None):
     start,end = get_start_end(window)
     step = step if step else end-start
-    params = {
-        'query':query%(resolution,window,resolution),
-        # 'start':start,
-        # 'end':end,
-        # 'step':resolution,
-    }
-    response = requests.get(url = url, params=params).json()
+    print((query%window, start,end,resolution))
+    response = prom.custom_query_range(query=query%resolution, start_time=start, end_time=end, step=resolution)
+
     result = {}
-    for d in response['data']['result']:
+    for d in response:
         agg_factor = d['metric'][f'{aggregate}']
         if agg_factor in result:
             resource = d['metric']
@@ -35,18 +32,12 @@ def func_query_RAM_bytes_alllocated(window,resolution,aggregate,query=query.quer
     return result
 
 
-def func_query_RAM_usage(window,resolution,aggregate,query=query.queryFmtRAMUsageAvg,step=None):
+def func_query_RAM_usage(window,resolution,aggregate,query=query.queryFmtRAMUsageAvg_chart,step=None):
     start,end = get_start_end(window)
     step = step if step else end-start
-    params = {
-        'query':query%(resolution,window,resolution),
-        # 'start':start,
-        # 'end':end,
-        # 'step':resolution,
-    }
-    response = requests.get(url = url, params=params).json()
+    response = prom.custom_query_range(query=query%window, start_time=start, end_time=end, step=resolution)
     result = {}
-    for d in response['data']['result']:
+    for d in response:
         agg_factor = d['metric'][f'{aggregate}']
         if agg_factor in result:
             resource = d['metric']
@@ -64,18 +55,12 @@ def func_query_RAM_usage(window,resolution,aggregate,query=query.queryFmtRAMUsag
             ]
     return result
 
-def func_query_CPU_core_allocated(window,resolution,aggregate,query=query.queryFmtCPUCoresAllocated,step=None):
+def func_query_CPU_core_allocated(window,resolution,aggregate,query=query.queryFmtCPUCoresAllocated_chart,step=None):
     start,end = get_start_end(window)
     step = step if step else end-start
-    params = {
-        'query':query%(resolution,window,resolution),
-        # 'start':start,
-        # 'end':end,
-        # 'step':resolution,
-    }
-    response = requests.get(url = url, params=params).json()
+    response = prom.custom_query_range(query=query%window, start_time=start, end_time=end, step=resolution)
     result = {}
-    for d in response['data']['result']:
+    for d in response:
         agg_factor = d['metric'][f'{aggregate}']
         if agg_factor in result:
             resource = d['metric']
@@ -93,18 +78,12 @@ def func_query_CPU_core_allocated(window,resolution,aggregate,query=query.queryF
             ]
     return result
 
-def func_query_CPU_usage(window,resolution,aggregate,query=query.queryFmtCPURequests,step=None):
+def func_query_CPU_usage(window,resolution,aggregate,query=query.queryFmtCPURequests_chart,step=None):
     start,end = get_start_end(window)
     step = step if step else end-start
-    params = {
-        'query':query%(resolution,window,resolution),
-        # 'start':start,
-        # 'end':end,
-        # 'step':resolution,
-    }
-    response = requests.get(url = url, params=params).json()
+    response = prom.custom_query_range(query=query%window, start_time=start, end_time=end, step=resolution)
     result = {}
-    for d in response['data']['result']:
+    for d in response:
         agg_factor = d['metric'][f'{aggregate}']
         if agg_factor in result:
             resource = d['metric']
@@ -122,18 +101,12 @@ def func_query_CPU_usage(window,resolution,aggregate,query=query.queryFmtCPURequ
             ]
     return result
 
-def func_query_GPUs_allocated(window,resolution,aggregate,query=query.queryFmtGPUsAllocated,step=None):
+def func_query_GPUs_allocated(window,resolution,aggregate,query=query.queryFmtGPUsAllocated_chart,step=None):
     start,end = get_start_end(window)
     step = step if step else end-start
-    params = {
-        'query':query%(resolution,window,resolution),
-        # 'start':start,
-        # 'end':end,
-        # 'step':resolution,
-    }
-    response = requests.get(url = url, params=params).json()
+    response = prom.custom_query_range(query=query%window, start_time=start, end_time=end, step=resolution)
     result = {}
-    for d in response['data']['result']:
+    for d in response:
         agg_factor = d['metric'][f'{aggregate}']
         if agg_factor in result:
             resource = d['metric']
@@ -145,23 +118,18 @@ def func_query_GPUs_allocated(window,resolution,aggregate,query=query.queryFmtGP
             resource = d['metric']
             resource['gpu_alloc_chart'] = d['values']
             resource['gpu_alloc_avg'] = sum(float(b) for a,b in d['values'])/len(d['values'])
+
             result[agg_factor] =  [
                 resource
             ]
     return result
 
-def func_query_GPUs_usage(window,resolution,aggregate,query=query.queryFmtGPUsUsageAvg,step=None):
+def func_query_GPUs_usage(window,resolution,aggregate,query=query.queryFmtGPUsUsageAvg_chart,step=None):
     start,end = get_start_end(window)
     step = step if step else end-start
-    params = {
-        'query':query%(resolution,window,resolution),
-        # 'start':start,
-        # 'end':end,
-        # 'step':resolution,
-    }
-    response = requests.get(url = url, params=params).json()
+    response = prom.custom_query_range(query=query%window, start_time=start, end_time=end, step=resolution)
     result = {}
-    for d in response['data']['result']:
+    for d in response:
         agg_factor = d['metric'][f'{aggregate}']
         if agg_factor in result:
             resource = d['metric']

@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, request
 import requests
 import query_func
-from utils import merge_dicts,flatten_and_append
+from utils import merge_dicts,flatten_and_append, clean_up_node_elements
 
 app = Flask(__name__)
 url = 'https://prom-gpu.orai.network/api/v1/query_range'
@@ -12,7 +12,7 @@ def get_result():
     resolution = request.args.get('resolution')
     step = request.args.get('step')
     aggregate = request.args.get('aggregate')
-
+    
     ram_alloc = query_func.func_query_RAM_bytes_alllocated(window,resolution,aggregate,step=step)
     ram_usage = query_func.func_query_RAM_usage(window,resolution,aggregate,step=step)
     gpu_alloc = query_func.func_query_GPUs_allocated(window,resolution,aggregate,step=step)
@@ -29,8 +29,9 @@ def get_result():
             if agg_factor not in result:
                 result[agg_factor] = []
             flatten_and_append(result[agg_factor],record[agg_factor])
+    
 
-
+    # result = clean_up_node_elements(result)
     return jsonify(result) ,200 
 if __name__ == '__main__':
     app.run(host='0.0.0.0',port=5055)
