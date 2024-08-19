@@ -1,0 +1,8 @@
+version: '3'
+services:
+  web:
+    image: test2
+    ports:
+      - "5055:5055"
+
+  

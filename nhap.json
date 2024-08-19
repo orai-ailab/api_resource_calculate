@@ -1,0 +1,99 @@
+{
+    "jupyter-kh4n9373": [
+        {
+            "container": "notebook",
+            "node": "210.211.99.160:10250",
+            "ram_alloc_chart": [
+                [
+                    1723787789,
+                    "201035776"
+                ]
+            ]
+        },
+        {
+            "container": "notebook",
+            "node": "vt-gpu-staking-a100",
+            "ram_alloc_chart": [
+                [
+                    1723787789,
+                    "1073741824"
+                ]
+            ]
+        },
+        {
+            "node": "vt-gpu-staking-a100",
+            "ram_usage_chart": [
+                [
+                    1723787790,
+                    "201035776"
+                ]
+            ],
+            "service": "kube-prometheus-stack-kubelet"
+        },
+        {
+            "container": "notebook",
+            "exported_instance": "210.211.99.160:10250",
+            "gpu_alloc_chart": [
+                [
+                    1723787790,
+                    "0"
+                ]
+            ],
+            "job": "opencost-exporter",
+            "node": "210.211.99.160:10250"
+        },
+        {
+            "container": "notebook",
+            "exported_instance": "vt-gpu-staking-a100",
+            "gpu_alloc_chart": [
+                [
+                    1723787790,
+                    "0"
+                ]
+            ],
+            "job": "opencost-exporter",
+            "node": "vt-gpu-staking-a100"
+        },
+        {
+            "DCGM_FI_DRIVER_VERSION": "550.100",
+            "GPU_I_ID": "4",
+            "GPU_I_PROFILE": "2g.10gb",
+            "Hostname": "vt-gpu-staking-a100",
+            "container": "notebook",
+            "device": "nvidia0",
+            "gpu": "0",
+            "gpu_usage_chart": [
+                [
+                    1723787791,
+                    "0"
+                ]
+            ],
+            "job": "dcgm-exporter",
+            "modelName": "NVIDIA A100-SXM4-40GB"
+        },
+        {
+            "container": "notebook",
+            "cpu_alloc_chart": [
+                [
+                    1723787791,
+                    "0.00041624759454373815"
+                ]
+            ],
+            "exported_instance": "210.211.99.160:10250",
+            "job": "opencost-exporter",
+            "node": "210.211.99.160:10250"
+        },
+        {
+            "container": "notebook",
+            "cpu_alloc_chart": [
+                [
+                    1723787791,
+                    "0"
+                ]
+            ],
+            "exported_instance": "vt-gpu-staking-a100",
+            "job": "opencost-exporter",
+            "node": "vt-gpu-staking-a100"
+        }
+    ]
+}
