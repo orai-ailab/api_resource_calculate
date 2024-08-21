@@ -38,3 +38,12 @@ def func_GPUs_request_chart(window, aggregate, resolution):
 
 def func_GPUs_usage_chart(window, aggregate, resolution):
     return fetch_chart_data(window, aggregate, resolution, query.queryFmtGPUsUsageAvg_chart, 'gpu_usage_chart')
+
+def func_query_RAM_cost_chart(window, aggregate, resolution):
+    return fetch_chart_data(window, aggregate, resolution, query.queryFmtRAMUsageCost_chart, 'ram_usage_cost_chart')
+
+def func_query_CPU_cost_chart(window, aggregate, resolution):
+    return fetch_chart_data(window, aggregate, resolution, query.queryFmtCPUUsageCost_chart, 'cpu_usage_cost_chart')
+
+def func_query_GPUs_cost_chart(window, aggregate,resolution):
+    return fetch_chart_data(window, aggregate, resolution, query.queryFmtGPUsUsageCost_chart, 'gpu_usage_cost_chart')
