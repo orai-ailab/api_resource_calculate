@@ -1,5 +1,5 @@
 import requests
-from utils import get_start_end
+from utils import get_start_end,window_to_duration
 import cost
 from prometheus_api_client import PrometheusConnect
 
@@ -24,6 +24,8 @@ def fetch_chart_data(window, aggregate, resolution, query, metric_key):
 def fetch_chart_data_cost(window, aggregate, resolution, query, metric_key):
     start, end = get_start_end(window)
     response = prom.custom_query_range(query=query % window, start_time=start, end_time=end, step=resolution)
+    duration = window_to_duration(window)
+
     if 'ram' in metric_key:
         cost_metric = cost.RAM_COST_PER_GB/1000000
     elif 'cpu' in metric_key:
@@ -37,7 +39,7 @@ def fetch_chart_data_cost(window, aggregate, resolution, query, metric_key):
             result[agg_factor] = []
 
         resource = d['metric']
-        resource[metric_key] = [ele*cost_metric for ele in d['values'][1]]
+        resource[metric_key] = [ele*cost_metric*duration for ele in d['values'][1]]
         result[agg_factor].append(resource)
     
     return result

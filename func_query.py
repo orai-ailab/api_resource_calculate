@@ -1,13 +1,11 @@
 import requests
-from utils import get_start_end
+from utils import get_start_end,window_to_duration
 import cost
 from prometheus_api_client import PrometheusConnect
 
 prom = PrometheusConnect(url='https://prom-gpu.orai.network/', disable_ssl=True)
 
 def fetch_metric_data(window, aggregate, query_template, metric_key):
-    start, end = get_start_end(window)
-    step = end - start
     response = prom.custom_query(query=query_template % (window, aggregate))
     result = {}
     for d in response:
@@ -21,8 +19,7 @@ def fetch_metric_data(window, aggregate, query_template, metric_key):
     
     return result
 def fetch_metric_data_cost(window, aggregate, query_template, metric_key):
-    start, end = get_start_end(window)
-    step = end - start
+    duration = window_to_duration(window)
     if 'ram' in metric_key:
         cost_metric = cost.RAM_COST_PER_GB/1000000
     elif 'cpu' in metric_key:
@@ -39,7 +36,7 @@ def fetch_metric_data_cost(window, aggregate, query_template, metric_key):
             
         resource = d['metric']
         # resource[metric_key] = float(d['value'][1])*cost_metric
-        resource[metric_key] = float(d['value'][1])*cost_metric
+        resource[metric_key] = float(d['value'][1])*cost_metric*duration
         result[agg_factor].append(resource)
     
     return result
