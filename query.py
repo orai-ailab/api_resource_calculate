@@ -1,7 +1,7 @@
 
 
 
-# ===========Query for usage===========
+# ===========Query for usage range===========
 queryFmtRAMRequests_chart                 = """avg_over_time(kube_pod_container_resource_requests{resource="memory", unit="byte", container!="", container!="POD", node!=""}[%s])"""
 queryFmtRAMUsageAvg_chart                 = """avg_over_time(container_memory_working_set_bytes{container!="", container_name!="POD", container!="POD"}[%s])"""
 
@@ -12,7 +12,7 @@ queryFmtGPUsRequested_chart               = """avg_over_time(kube_pod_container_
 queryFmtGPUsUsageAvg_chart                = """avg_over_time(DCGM_FI_PROF_GR_ENGINE_ACTIVE{container!=""}[%s])"""
 
 
-# ===========Query for usage range===========
+# ===========Query for usage===========
 
 queryFmtRAMRequests                 = """avg(avg_over_time(kube_pod_container_resource_requests{resource="memory", unit="byte", container!="", container!="POD", node!=""}[%s])) by (container, pod, namespace, node, %s)"""
 queryFmtRAMUsageAvg                 = """avg(avg_over_time(container_memory_working_set_bytes{container!="", container_name!="POD", container!="POD"}[%s])) by (container_name, container, pod_name, pod, namespace, instance, %s)"""
@@ -36,14 +36,23 @@ queryFmtGPUsUsageAvg                = """avg(avg_over_time(DCGM_FI_PROF_GR_ENGIN
 
 # ===========Query for cost===========
 
-queryFmtRAMUsageCost                = """avg(sum_over_time(container_memory_working_set_bytes{container!="", container!="POD", instance!=""}[%s])) by (namespace, container_name, pod_name,%s)"""
-queryFmtCPUUsageCost                = """avg(rate(container_cpu_usage_seconds_total{container!="", container!="POD", instance!=""}[%s])) by (namespace, container_name, pod_name,%s)"""
-queryFmtGPUsUsageCost               = """avg(avg_over_time(DCGM_FI_PROF_GR_ENGINE_ACTIVE{container!=""}[%s])) by (container, pod, namespace, %s)"""
+# queryFmtRAMUsageCost                = """sum(sum_over_time(container_memory_working_set_bytes{container!="", container!="POD", instance!=""}[%s])) by (namespace, container_name, pod_name,%s)"""
+# queryFmtCPUUsageCost                = """sum(rate(container_cpu_usage_seconds_total{container!="", container!="POD", instance!=""}[%s])) by (namespace, container_name, pod_name,%s)"""
+# queryFmtGPUsUsageCost               = """sum(avg_over_time(DCGM_FI_PROF_GR_ENGINE_ACTIVE{container!=""}[%s])) by (container, pod, namespace, %s)"""
+
+queryFmtRAMUsageCost                 = """avg(avg_over_time(container_memory_working_set_bytes{container!="", container_name!="POD", container!="POD"}[%s])) by (container_name, container, pod_name, pod, namespace, instance, %s)"""
+queryFmtCPUUsageCost                 = """avg(rate(container_cpu_usage_seconds_total{container!="", container_name!="POD", container!="POD"}[%s])) by (container_name, container, pod_name, pod, namespace, instance, %s)"""
+queryFmtGPUsUsageCost                = """avg(avg_over_time(DCGM_FI_PROF_GR_ENGINE_ACTIVE{container!=""}[%s])) by (container, pod, namespace, %s)"""
+
 
 
 # ===========Query for usage range===========
 
-queryFmtRAMUsageCost_chart                = """sum_over_time(container_memory_working_set_bytes{container!="", container!="POD", instance!=""}[%s])"""
-queryFmtCPUUsageCost_chart                = """rate(container_cpu_usage_seconds_total{container!="", container!="POD", instance!=""}[%s])"""
-queryFmtGPUsUsageCost_chart               = """avg_over_time(DCGM_FI_PROF_GR_ENGINE_ACTIVE{container!=""}[%s])"""
+# queryFmtRAMUsageCost_chart                = """sum_over_time(container_memory_working_set_bytes{container!="", container!="POD", instance!=""}[%s])"""
+# queryFmtCPUUsageCost_chart                = """rate(container_cpu_usage_seconds_total{container!="", container!="POD", instance!=""}[%s])"""
+# queryFmtGPUsUsageCost_chart               = """avg_over_time(DCGM_FI_PROF_GR_ENGINE_ACTIVE{container!=""}[%s])"""
+
+queryFmtRAMUsageCost_chart                 = """avg_over_time(container_memory_working_set_bytes{container!="", container_name!="POD", container!="POD"}[%s])"""
+queryFmtCPUUsageCost_chart                 = """rate(container_cpu_usage_seconds_total{container!="", container_name!="POD", container!="POD"}[%s])"""
+queryFmtGPUsUsageCost_chart                = """avg_over_time(DCGM_FI_PROF_GR_ENGINE_ACTIVE{container!=""}[%s])"""
 

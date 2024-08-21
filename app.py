@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, request
 import requests
 import func_query
+import query
 import func_query_range
 from utils import merge_dicts,flatten_and_append, clean_up_node_elements
 
@@ -20,13 +21,12 @@ def get_usage():
     window = request.args.get('window')
     aggregate = request.args.get('aggregate')
     
-    ram_request = func_query.func_query_RAM_requested(window,aggregate)
-    ram_usage = func_query.func_query_RAM_usage(window,aggregate)
-    gpu_request = func_query.func_query_GPUs_request(window,aggregate)
-    gpu_usage = func_query.func_query_GPUs_usage(window,aggregate)
-    cpu_request = func_query.func_query_CPU_request(window,aggregate)
-    cpu_usage = func_query.func_query_CPU_usage(window,aggregate)
-
+    ram_request = func_query.fetch_metric_data(window, aggregate, query.queryFmtRAMRequests, metric_key='ram_request')
+    ram_usage = func_query.fetch_metric_data(window, aggregate, query.queryFmtRAMUsageAvg, metric_key='ram_usage')
+    gpu_request = func_query.fetch_metric_data(window, aggregate, query.queryFmtGPUsRequested, metric_key='gpu_request')
+    gpu_usage = func_query.fetch_metric_data(window, aggregate, query.queryFmtGPUsUsageAvg, metric_key='gpu_usage')
+    cpu_request = func_query.fetch_metric_data(window, aggregate, query.queryFmtCPURequests, metric_key='cpu_request')
+    cpu_usage = func_query.fetch_metric_data(window, aggregate, query.queryFmtCPUUsageAvg, metric_key='cpu_usage')
     result = {}
 
     records = [ram_request,ram_usage,gpu_request,gpu_usage,cpu_request,cpu_usage]
@@ -49,16 +49,16 @@ def get_usage_range():
     resolution = request.args.get('resolution')
 
     
-    ram_alloc = func_query_range.func_RAM_request_chart(window,aggregate,resolution)
-    ram_usage = func_query_range.func_RAM_usage_chart(window,aggregate,resolution)
-    gpu_alloc = func_query_range.func_GPUs_request_chart(window,aggregate,resolution)
-    gpu_usage = func_query_range.func_GPUs_usage_chart(window,aggregate,resolution)
-    cpu_alloc = func_query_range.func_CPU_request_chart(window,aggregate,resolution)
-    cpu_usage = func_query_range.func_CPU_usage_chart(window,aggregate,resolution)
+    ram_request = func_query_range.fetch_chart_data(window,aggregate,resolution,query=query.queryFmtRAMRequests_chart,metric_key='ram_request_chart')
+    ram_usage = func_query_range.fetch_chart_data(window,aggregate,resolution,query=query.queryFmtRAMUsageAvg_chart,metric_key='ram_usage_chart')
+    gpu_request = func_query_range.fetch_chart_data(window,aggregate,resolution,query=query.queryFmtGPUsRequested_chart,metric_key='gpu_request_chart')
+    gpu_usage = func_query_range.fetch_chart_data(window,aggregate,resolution,query=query.queryFmtGPUsUsageAvg_chart,metric_key='gpu_usage_chart')
+    cpu_request = func_query_range.fetch_chart_data(window,aggregate,resolution,query=query.queryFmtCPURequests_chart,metric_key='cpu_request_chart')
+    cpu_usage = func_query_range.fetch_chart_data(window,aggregate,resolution,query=query.queryFmtCPUUsageAvg_chart,metric_key='cpu_usage_chart')
 
     result = {}
 
-    records = [ram_alloc,ram_usage,gpu_alloc,gpu_usage,cpu_alloc,cpu_usage]
+    records = [ram_request,ram_usage,gpu_request,gpu_usage,cpu_request,cpu_usage]
     for record in records:
         for agg_factor in record:
         
@@ -79,9 +79,9 @@ def get_cost():
     window = request.args.get('window')
     aggregate = request.args.get('aggregate')
     
-    ram_usage = func_query.func_query_RAM_cost(window,aggregate)
-    gpu_usage = func_query.func_query_GPUs_cost(window,aggregate)
-    cpu_usage = func_query.func_query_CPU_cost(window,aggregate)
+    ram_usage = func_query.fetch_metric_data_cost(window,aggregate,query.queryFmtRAMUsageCost, metric_key='ram_usage_cost')
+    gpu_usage = func_query.fetch_metric_data_cost(window,aggregate,query.queryFmtGPUsUsageCost, metric_key='gpu_usage_cost')
+    cpu_usage = func_query.fetch_metric_data_cost(window,aggregate,query.queryFmtCPUUsageCost, metric_key='cpu_usage_cost')
 
     result = {}
 
@@ -105,9 +105,9 @@ def get_cost_range():
     aggregate = request.args.get('aggregate')
     resolution = request.args.get('resolution')
     
-    ram_usage = func_query_range.func_query_RAM_cost_chart(window,aggregate,resolution)
-    gpu_usage = func_query_range.func_query_GPUs_cost_chart(window,aggregate,resolution)
-    cpu_usage = func_query_range.func_query_CPU_cost_chart(window,aggregate,resolution)
+    ram_usage = func_query_range.fetch_chart_data_cost(window, aggregate, resolution, query.queryFmtRAMUsageCost_chart, metric_key='ram_usage_cost_chart')
+    gpu_usage = func_query_range.fetch_chart_data_cost(window, aggregate, resolution, query.queryFmtGPUsRequested_chart, metric_key='gpu_usage_cost_chart')
+    cpu_usage = func_query_range.fetch_chart_data_cost(window, aggregate, resolution, query.queryFmtCPURequests_chart, metric_key='cpu_usage_cost_chart')
 
     result = {}
 
